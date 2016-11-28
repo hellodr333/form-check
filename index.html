@@ -4,22 +4,23 @@
 	<meta charset="utf-8" />
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="bootstrap.css">
-	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" anysc="anysc" src="angular.js"></script>
 	<!-- 依赖文件 -->
-	<script type="text/javascript" src="angular-messages.js"></script>  
+	<script type="text/javascript" anysc="anysc" src="angular-messages.js"></script>  
+	<script type="text/javascript" anysc="anysc" src="app.js"></script>
 </head>
-<body style="height:1000px;">
-<form action="" name="myform" class="form-horizontal container" ng-controller="myctrl" style="margin-top:100px;" ng-cloak novalidate>
+<body>
+<form  name="myform" class="form-horizontal container" ng-controller="myctrl" ng-submit="myform.$dirty && myform.$valid && submitForm(user)" style="margin-top:100px;" ng-cloak novalidate>
 	
 	<!-- 姓名验证 --><!-- 注意此处的ngclass -->
-	<div class="form-group row" ng-class="{'has-error':myform.username.$dirty && myform.username.$invalid}">
+	<div class="form-group row" ng-class="{'has-error':myform.name.$dirty && myform.name.$invalid}">
 		<label for="" class="col-sm-2 control-label">姓名</label>
 		<div class="input-group col-sm-10">
-			<input class="form-control" type="text" name="username" ng-model="user.name" required ng-minlength="2" ng-maxlength="4" ng-pattern="/^[a-zA-Z]{1}/" placeholder="请输入姓名" />
-			<div ng-show="myform.username.$error.required" class="alert alert-danger help-block">必填项</div>
-			<div ng-show="myform.username.$dirty && myform.username.$error.minlength" class="alert alert-danger help-block">最小长度2</div>
-			<div ng-show="myform.username.$dirty && myform.username.$error.maxlength" class="alert alert-danger help-block">最大长度4</div>
-			<div ng-show="myform.username.$dirty && myform.username.$error.pattern" class="alert alert-danger help-block">开头请以字母</div>
+			<input class="form-control" type="text" name="name" ng-model="user.name" required ng-minlength="2" ng-maxlength="4" ng-pattern="/^[a-zA-Z]{1}/" placeholder="请输入姓名" />
+			<div ng-show="myform.name.$dirty && myform.name.$error.required" class="alert alert-danger help-block">必填项</div>
+			<div ng-show="myform.name.$dirty && myform.name.$error.minlength" class="alert alert-danger help-block">最小长度2</div>
+			<div ng-show="myform.name.$dirty && myform.name.$error.maxlength" class="alert alert-danger help-block">最大长度4</div>
+			<div ng-show="myform.name.$dirty && myform.name.$error.pattern" class="alert alert-danger help-block">开头请以字母</div>
 		</div>
 	</div>
 
@@ -76,7 +77,7 @@
 		<label class="col-sm-2 control-label">性别</label>
 		<div class="col-sm-10 input-group">
 			<label class="radio-inline">
-				<input type="radio" name="vender"  ng-model="user.vender" value="0"/>男
+				<input type="radio" name="vender" ng-model="user.vender" value="0"/>男
 			</label>
 			<label class="radio-inline">
 				<input type="radio" name="vender" ng-model="user.vender" value="1"/>女
@@ -88,25 +89,29 @@
 		<label class="col-sm-2 control-label">爱好</label>
 		<div class="col-sm-10 input-group">
 			<label class="checkbox-inline">
-				<input type="checkbox" name="vender"  ng-model="user.vender" value="0"/>男
+				<input type="checkbox" name="hobby"  ng-click="setHobby(0)" ng-model="user.hobby.football" value="0"/>足球
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" name="hobby"  ng-click="setHobby(1)" ng-model="user.hobby.mountting" value="1"/>爬山
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" name="hobby"  ng-click="setHobby(2)" ng-model="user.hobby.swimming" value="2"/>游泳
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" name="hobby"  ng-click="setHobby(3)" ng-model="user.hobby.running" value="3"/>跑步
 			</label>
 		</div>
 	</div>
 	<!-- 爱好验证 -->
+
+	<div class="form-group  text-center">
+        <input class="btn btn-primary btn-md" ng-disabled="myform.$invalid" type="submit" value="提交" />
+        <input class="btn btn-primary btn-md" ng-click="check()" value="查看表单状态" />
+    </div>
+
 </form>
-
-<script type="text/javascript">
-(function(){
-	var myapp=angular.module('myapp',['ngMessages']);
-	myapp.controller('myctrl',['$scope',function($scope){
-		// 用户数据
-		$scope.user={
-			
-		};
-		
-	}]);
-
-})()
-</script>
 </body>
 </html>
+
+				
+				
