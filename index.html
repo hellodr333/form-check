@@ -5,113 +5,138 @@
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="bootstrap.css">
 	<script type="text/javascript" anysc="anysc" src="angular.js"></script>
-	<!-- 依赖文件 -->
-	<script type="text/javascript" anysc="anysc" src="angular-messages.js"></script>  
-	<script type="text/javascript" anysc="anysc" src="app.js"></script>
+<!-- 依赖文件 -->
+<script type="text/javascript" anysc="anysc" src="angular-messages.js"></script>  
+<script type="text/javascript" anysc="anysc" src="app.js"></script>
 </head>
-<body>
-<form  name="myform" class="form-horizontal container" ng-controller="myctrl" ng-submit="myform.$dirty && myform.$valid && submitForm(user)" style="margin-top:100px;" ng-cloak novalidate>
-	
-	<!-- 姓名验证 --><!-- 注意此处的ngclass -->
-	<div class="form-group row" ng-class="{'has-error':myform.name.$dirty && myform.name.$invalid}">
-		<label for="" class="col-sm-2 control-label">姓名</label>
-		<div class="input-group col-sm-10">
-			<input class="form-control" type="text" name="name" ng-model="user.name" required ng-minlength="2" ng-maxlength="4" ng-pattern="/^[a-zA-Z]{1}/" placeholder="请输入姓名" />
-			<div ng-show="myform.name.$dirty && myform.name.$error.required" class="alert alert-danger help-block">必填项</div>
-			<div ng-show="myform.name.$dirty && myform.name.$error.minlength" class="alert alert-danger help-block">最小长度2</div>
-			<div ng-show="myform.name.$dirty && myform.name.$error.maxlength" class="alert alert-danger help-block">最大长度4</div>
-			<div ng-show="myform.name.$dirty && myform.name.$error.pattern" class="alert alert-danger help-block">开头请以字母</div>
-		</div>
-	</div>
+<body ng-controller="tabCtrl">
+	<div style="width:80%;margin:20px auto;">
+		<ul class="nav nav-tabs"  id="myTab">
+		  <li ng-class="{active:isSet(0)}"><a ng-click="setTab(0)" href="#">demo1</a></li>
+		  <li ng-class="{active:isSet(1)}"><a ng-click="setTab(1)" href="#" >demo2</a></li>
+		</ul>
+		<div class="tab-pane" ng-show="isSet(0)">
+			<form  name="myform" class="form-horizontal " ng-controller="formCtrl" ng-submit="myform.$dirty && myform.$valid && submitForm(user)" style="margin-top:30px;" ng-cloak novalidate>	
+				<!-- 姓名验证 --><!-- 注意此处的ngclass -->
+				<div class="form-group row" ng-class="{'has-error':myform.name.$dirty && myform.name.$invalid}">
+					<label for="" class="col-sm-2 control-label">姓名</label>
+					<div class="input-group col-sm-10">
+						<input class="form-control" type="text" name="name" ng-model="user.name" required ng-minlength="2" ng-maxlength="4" ng-pattern="/^[a-zA-Z]{1}/" placeholder="请输入姓名(以字母开头)" autofocus="true"/>
+						<div ng-show="myform.name.$dirty && myform.name.$error.required" class="alert alert-danger help-block">必填项</div>
+						<div ng-show="myform.name.$dirty && myform.name.$error.minlength" class="alert alert-danger help-block">最小长度2</div>
+						<div ng-show="myform.name.$dirty && myform.name.$error.maxlength" class="alert alert-danger help-block">最大长度4</div>
+						<div ng-show="myform.name.$dirty && myform.name.$error.pattern" class="alert alert-danger help-block">开头请以字母</div>
+					</div>
+				</div>
 
-	<!-- 邮箱验证 -->
-	<div class="form-group row" ng-class="">
-		<label for="" class="col-sm-2 control-label">邮箱</label>
-		<div class="col-sm-10 input-group">
-			<input type="email" class="form-control" name="email" ng-model="user.email" ng-pattern="/^\w+@[a-z0-9\-]{1,63}(\.[a-z]{2,6}){1,2}$/"/>
-			<!-- <div ng-show="myform.email.$dirty && myform.email.$error.minlength" class="alert alert-danger help-block">最小长度6</div>
-			<div ng-show="myform.email.$dirty && myform.email.$error.maxlength" class="alert alert-danger help-block">最大长度10</div> -->
-			<!-- $error:{{myform.email.$error}} -->
-			<div ng-messages="myform.email.$error">   
-				<div ng-message="pattern" class="alert alert-danger help-block">邮箱格式不正确</div>  
-            </div> 
-            <!-- ng-show是1.3版本之前用的，1.3版本之后支持ng-message,他被打包成一个模块发布，因此只需要引入这个js文件即可，在ng-app里引入 ,ng-messages-multiple表示可以同时出现多条错误提示信息-->
-		</div>
-	</div>
+				<!-- 邮箱验证 -->
+				<div class="form-group row" ng-class="">
+					<label for="" class="col-sm-2 control-label">邮箱</label>
+					<div class="col-sm-10 input-group">
+						<input type="email" class="form-control" name="email" ng-model="user.email" placeholder="请输入邮箱(例：hello@163.com)" ng-pattern="/^\w+@[a-z0-9\-]{1,63}(\.[a-z]{2,6}){1,2}$/"/>
+						<!-- <div ng-show="myform.email.$dirty && myform.email.$error.minlength" class="alert alert-danger help-block">最小长度6</div>
+						<div ng-show="myform.email.$dirty && myform.email.$error.maxlength" class="alert alert-danger help-block">最大长度10</div> -->
+						<!-- $error:{{myform.email.$error}} -->
+						<div ng-messages="myform.email.$error">   
+							<div ng-message="pattern" class="alert alert-danger help-block">邮箱格式不正确</div>  
+			            </div> 
+			            <!-- ng-show是1.3版本之前用的，1.3版本之后支持ng-message,他被打包成一个模块发布，因此只需要引入这个js文件即可，在ng-app里引入 ,ng-messages-multiple表示可以同时出现多条错误提示信息-->
+					</div>
+				</div>
 
-	<!-- 密码验证 -->
-	<div class="form-group" ng-class="">
-		<label for="" class="col-sm-2 control-label">请输入密码</label>
-		<div class="col-sm-10 input-group">
-			<input type="password" name="password1" class="form-control" ng-model="user.password"  ng-minlength="5">
-			<!-- <div ng-show="myform.password1.$dirty && myform.password1.$error.minlength" class="alert alert-danger help-block">密码长度不能小于5位</div> -->
-			<div ng-messages="myform.password1.$error">
-				<span ng-message="minlength" class="alert alert-danger help-block">密码长度不能小于5位</span>
+				<!-- 密码验证 -->
+				<div class="form-group" ng-class="">
+					<label for="" class="col-sm-2 control-label">请输入密码</label>
+					<div class="col-sm-10 input-group">
+						<input type="password" name="password1" class="form-control" ng-model="user.password"  ng-minlength="5" placeholder="请输入密码(不小于5位的数字或者字母)">
+						<!-- <div ng-show="myform.password1.$dirty && myform.password1.$error.minlength" class="alert alert-danger help-block">密码长度不能小于5位</div> -->
+						<div ng-messages="myform.password1.$error">
+							<span ng-message="minlength" class="alert alert-danger help-block">密码长度不能小于5位</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 密码校验-->
+				<div class="form-group" ng-class="">
+					<label for="" class="col-sm-2 control-label">确认密码</label>
+					<div class="col-sm-10 input-group">
+						<input type="password" name="passwordConfim1" class="form-control" ng-model="user.passwordConfim" placeholder="请重复输入密码">
+						<div ng-show="myform.password1.$dirty && myform.passwordConfim1.$dirty && user.password != user.passwordConfim" class="alert alert-danger help-block">密码和确认密码不一致</div>
+					</div>
+				</div>
+
+				<!-- 年龄验证 -->
+				<div class="form-group" ng-class="">
+					<label class="col-sm-2 control-label">年龄</label>
+					<div class="col-sm-10 input-group">
+						<input type="number" min="18" max="80" class="form-control" name="age" ng-model="user.age" ng-pattern="/^[1-9]/" placeholder="请输入年龄"/>
+						<div ng-messages="myform.age.$error" ng-messages-multiple>
+							<span class="alert alert-danger help-block" ng-message="pattern">请输入数字</span>
+							<span class="alert alert-danger help-block" ng-message="min">年龄不得低于18</span>
+							<span class="alert alert-danger help-block" ng-message="max">年龄不得高于80</span>
+						</div>
+					</div>
+				</div>
+				<!-- 性别验证 -->
+				<div class="form-group" ng-class="">
+					<label class="col-sm-2 control-label">性别</label>
+					<div class="col-sm-10 input-group">
+						<label class="radio-inline">
+							<input type="radio" name="vender" ng-model="user.vender"  ng-value="false"/>男
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="vender" ng-model="user.vender"  ng-value="true"/>女
+						</label>
+					</div>
+				</div>
+				<!-- 爱好验证 -->
+				<div class="form-group" ng-class="">
+					<label class="col-sm-2 control-label">爱好</label>
+					<div class="col-sm-10 input-group">
+						<label class="checkbox-inline">
+							<input type="checkbox" name="hobby"  ng-click="setHobby(0)" ng-model="user.hobby.football" value="0"/>足球
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="hobby"  ng-click="setHobby(1)" ng-model="user.hobby.mountting" value="1"/>爬山
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="hobby"  ng-click="setHobby(2)" ng-model="user.hobby.swimming" value="2"/>游泳
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="hobby"  ng-click="setHobby(3)" ng-model="user.hobby.running" value="3"/>跑步
+						</label>
+					</div>
+				</div>
+				<!-- 爱好验证 -->
+
+				<div class="form-group  text-center">
+			        <input class="btn btn-primary btn-md" ng-disabled="myform.$invalid" type="submit" value="提交" />
+			       
+			    </div>
+			</form>
+		</div>
+		<div  class="tab-pane" ng-show="isSet(1)">
+			<ul>
+				<li ng-repeat="item in items" style="list-style:none;height:40px;padding-top:20px;">
+					<label>
+						<input type="checkbox" name="" ng-model="item.isFinish" >
+						<span>{{item.name}}</span>
+					</label>
+				</li>
+			</ul>
+			<hr/>
+			<div style="padding:10px 0;">
+				<span>name:</span>
+				<input type="text" name="" ng-model="json.name" required>
 			</div>
+			<p>
+				<label><input type="radio" name="finishState" ng-value="true" ng-model="json.state">finished</label>
+				<label><input type="radio" name="finishState" ng-value="false" ng-model="json.state">not yet</label>
+			</p>
+			<button ng-click="addItem(json)">add a new item</button>
 		</div>
 	</div>
 
-	<!-- 密码校验-->
-	<div class="form-group" ng-class="">
-		<label for="" class="col-sm-2 control-label">确认密码</label>
-		<div class="col-sm-10 input-group">
-			<input type="password" name="passwordConfim1" class="form-control" ng-model="user.passwordConfim">
-			<div ng-show="myform.password1.$dirty && myform.passwordConfim1.$dirty && user.password != user.passwordConfim" class="alert alert-danger help-block">密码和确认密码不一致</div>
-		</div>
-	</div>
-
-	<!-- 年龄验证 -->
-	<div class="form-group" ng-class="">
-		<label class="col-sm-2 control-label">年龄</label>
-		<div class="col-sm-10 input-group">
-			<input type="number" min="18" max="80" class="form-control" name="age" ng-model="user.age" ng-pattern="/^[1-9]/" />
-			<div ng-messages="myform.age.$error" ng-messages-multiple>
-				<span class="alert alert-danger help-block" ng-message="pattern">请输入数字</span>
-				<span class="alert alert-danger help-block" ng-message="min">年龄不得低于18</span>
-				<span class="alert alert-danger help-block" ng-message="max">年龄不得高于80</span>
-			</div>
-		</div>
-	</div>
-	<!-- 性别验证 -->
-	<div class="form-group" ng-class="">
-		<label class="col-sm-2 control-label">性别</label>
-		<div class="col-sm-10 input-group">
-			<label class="radio-inline">
-				<input type="radio" name="vender" ng-model="user.vender" value="0"/>男
-			</label>
-			<label class="radio-inline">
-				<input type="radio" name="vender" ng-model="user.vender" value="1"/>女
-			</label>
-		</div>
-	</div>
-	<!-- 爱好验证 -->
-	<div class="form-group" ng-class="">
-		<label class="col-sm-2 control-label">爱好</label>
-		<div class="col-sm-10 input-group">
-			<label class="checkbox-inline">
-				<input type="checkbox" name="hobby"  ng-click="setHobby(0)" ng-model="user.hobby.football" value="0"/>足球
-			</label>
-			<label class="checkbox-inline">
-				<input type="checkbox" name="hobby"  ng-click="setHobby(1)" ng-model="user.hobby.mountting" value="1"/>爬山
-			</label>
-			<label class="checkbox-inline">
-				<input type="checkbox" name="hobby"  ng-click="setHobby(2)" ng-model="user.hobby.swimming" value="2"/>游泳
-			</label>
-			<label class="checkbox-inline">
-				<input type="checkbox" name="hobby"  ng-click="setHobby(3)" ng-model="user.hobby.running" value="3"/>跑步
-			</label>
-		</div>
-	</div>
-	<!-- 爱好验证 -->
-
-	<div class="form-group  text-center">
-        <input class="btn btn-primary btn-md" ng-disabled="myform.$invalid" type="submit" value="提交" />
-        <button class="btn btn-primary btn-md" ng-click="check()">
-        	查看表单状态
-        </button>
-    </div>
-
-</form>
 </body>
 </html>
 
